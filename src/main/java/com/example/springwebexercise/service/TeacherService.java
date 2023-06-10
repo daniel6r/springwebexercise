@@ -2,14 +2,14 @@ package com.example.springwebexercise.service;
 
 import com.example.springwebexercise.model.Teacher;
 import jakarta.annotation.PostConstruct;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class TeacherService {
-    private List<Teacher> teacherList;
+    private List<Teacher> teacherList = new ArrayList<>();
 
     @PostConstruct
     public void initTeachers(){
@@ -17,10 +17,10 @@ public class TeacherService {
                 1L, "Tom", "Novak", List.of("Math", "English")
         ));
         teacherList.add(new Teacher(
-                1L, "Zack", "Morgan", List.of("Sports", "Philosophy")
+                2L, "Zack", "Morgan", List.of("Sports", "Philosophy")
         ));
         teacherList.add(new Teacher(
-                1L, "Alana", "Novak", List.of("Polish", "English")
+                3L, "Alana", "Novak", List.of("Polish", "English")
         ));
     }
 

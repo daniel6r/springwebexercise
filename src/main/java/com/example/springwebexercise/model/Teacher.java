@@ -1,7 +1,10 @@
 package com.example.springwebexercise.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import java.util.List;
 
+@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 public class Teacher {
     private Long id;
     private String firstName;
