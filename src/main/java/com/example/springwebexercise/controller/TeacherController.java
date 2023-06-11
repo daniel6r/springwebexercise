@@ -38,4 +38,9 @@ public class TeacherController {
     public void updateTeacher(@RequestBody @Valid Teacher teacher){
         teacherService.updateTeacher(teacher);
     }
+
+    @DeleteMapping("/teachers")
+    public void deleteTeacher(@RequestParam Long id){
+        teacherService.deleteTeacher(id);
+    }
 }

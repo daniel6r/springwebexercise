@@ -80,4 +80,13 @@ public class TeacherService {
                 .findAny()
                 .isPresent();
     }
+
+    public void deleteTeacher(Long id){
+        teacherList.stream()
+                .filter(t -> t.getId().equals(id))
+                .findAny()
+                .ifPresentOrElse(teacherList::remove,
+                        () -> {throw new TeacherNotFoundException(id);});
+    }
+
 }
