@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TeacherService {
@@ -24,8 +25,10 @@ public class TeacherService {
         ));
     }
 
-    public List<Teacher> getTeachers(){
-        return this.teacherList;
+    public List<Teacher> getTeachers(List<String> course){
+        return course != null ? this.teacherList.stream().
+                filter(teacher -> teacher.getCourses().containsAll(course)).
+                collect(Collectors.toList()) : this.teacherList;
     }
 
     public Teacher getTeacher(Long id){

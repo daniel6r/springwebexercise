@@ -3,10 +3,7 @@ package com.example.springwebexercise.controller;
 import com.example.springwebexercise.model.Teacher;
 import com.example.springwebexercise.service.TeacherService;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,8 +18,8 @@ public class TeacherController {
     }
 
     @GetMapping("/teachers")
-    public List<Teacher> getTeachers(){
-        return teacherService.getTeachers();
+    public List<Teacher> getTeachers(@RequestParam(required = false) List<String> course){
+        return teacherService.getTeachers(course);
     }
 
 
