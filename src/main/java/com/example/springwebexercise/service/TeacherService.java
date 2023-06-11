@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class TeacherService {
-    private List<Teacher> teacherList = new ArrayList<>();
+    private final List<Teacher> teacherList = new ArrayList<>();
 
     @PostConstruct
     public void initTeachers(){
