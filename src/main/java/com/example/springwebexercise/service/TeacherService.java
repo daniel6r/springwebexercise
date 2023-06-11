@@ -93,6 +93,7 @@ public class TeacherService {
     public void deleteTeacher(Long id){
         teacherList.stream()
                 .filter(t -> t.getId().equals(id))
+                .filter(Teacher::isActive)
                 .findAny()
                 .ifPresentOrElse(softDelete ? t -> t.setActive(false) : teacherList::remove,
                         () -> {throw new TeacherNotFoundException(id);});
