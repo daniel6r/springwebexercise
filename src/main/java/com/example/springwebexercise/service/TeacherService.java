@@ -38,4 +38,8 @@ public class TeacherService {
                 findFirst().
                 orElseThrow(() -> new TeacherNotFoundException(id));
     }
+
+    public void addTeacher(Teacher teacher){
+        teacherList.add(teacher);
+    }
 }

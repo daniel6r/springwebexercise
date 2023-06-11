@@ -2,6 +2,7 @@ package com.example.springwebexercise.controller;
 
 import com.example.springwebexercise.model.Teacher;
 import com.example.springwebexercise.service.TeacherService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,9 +22,14 @@ public class TeacherController {
         return teacherService.getTeachers(course);
     }
 
-
-    @GetMapping("teacher/{id}")
+    @GetMapping("/teachers/{id}")
     public Teacher getTeacher(@PathVariable("id") Long id){
         return teacherService.getTeacher(id);
+    }
+
+    @PostMapping("teachers")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void addTeacher(@RequestBody Teacher teacher){
+        teacherService.addTeacher(teacher);
     }
 }
