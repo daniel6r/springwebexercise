@@ -15,6 +15,7 @@ public class Teacher {
     private String lastName;
     @Size(min = 1, message = "At least {min} course is required")
     private List<String> courses;
+    private boolean active;
 
     public Teacher() {
     }
@@ -24,6 +25,7 @@ public class Teacher {
         this.firstName = firstName;
         this.lastName = lastName;
         this.courses = courses;
+        this.active = true;
     }
 
     public Long getId() {
@@ -42,6 +44,10 @@ public class Teacher {
         return courses;
     }
 
+    public boolean isActive() {
+        return active;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -56,5 +62,9 @@ public class Teacher {
 
     public void setCourses(List<String> courses) {
         this.courses = courses;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

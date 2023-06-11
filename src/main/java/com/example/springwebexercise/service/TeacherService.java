@@ -4,6 +4,7 @@ import com.example.springwebexercise.exception.TeacherAlreadyExistsException;
 import com.example.springwebexercise.exception.TeacherNotFoundException;
 import com.example.springwebexercise.model.Teacher;
 import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 
@@ -15,13 +16,16 @@ import java.util.stream.Collectors;
 public class TeacherService {
     private final List<Teacher> teacherList = new ArrayList<>();
 
+    @Value("${teachers.softdelete}")
+    private boolean softDelete;
+
     @PostConstruct
     public void initTeachers(){
         teacherList.add(new Teacher(
                 1L, "Tom", "Novak", List.of("Math", "English")
         ));
         teacherList.add(new Teacher(
-                2L, "Zack", "Morgan", List.of("Sports", "Philosophy")
+                2L, "Zack", "Morgan", List.of("Biology", "Philosophy")
         ));
         teacherList.add(new Teacher(
                 3L, "Alana", "Novak", List.of("Polish", "English")
@@ -29,16 +33,21 @@ public class TeacherService {
     }
 
     public List<Teacher> getTeachers(List<String> course){
-        return course != null ? this.teacherList.stream().
-                filter(teacher -> teacher.getCourses().containsAll(course)).
-                collect(Collectors.toList()) : this.teacherList;
+        return course != null ? this.teacherList.stream()
+                .filter(t -> t.getCourses().containsAll(course))
+                .filter(Teacher::isActive)
+                .collect(Collectors.toList()) :
+                teacherList.stream()
+                        .filter(Teacher::isActive)
+                        .collect(Collectors.toList());
     }
 
     public Teacher getTeacher(Long id){
-        return teacherList.stream().
-                filter(teacher -> teacher.getId().equals(id)).
-                findFirst().
-                orElseThrow(() -> new TeacherNotFoundException(id));
+        return teacherList.stream()
+                .filter(t -> t.getId().equals(id))
+                .filter(Teacher::isActive)
+                .findFirst()
+                .orElseThrow(() -> new TeacherNotFoundException(id));
     }
 
     public void addTeacher(Teacher teacher){
@@ -85,7 +94,7 @@ public class TeacherService {
         teacherList.stream()
                 .filter(t -> t.getId().equals(id))
                 .findAny()
-                .ifPresentOrElse(teacherList::remove,
+                .ifPresentOrElse(softDelete ? t -> t.setActive(false) : teacherList::remove,
                         () -> {throw new TeacherNotFoundException(id);});
     }
 
