@@ -1,5 +1,6 @@
 package com.example.springwebexercise.service;
 
+import com.example.springwebexercise.exception.TeacherNotFoundException;
 import com.example.springwebexercise.model.Teacher;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
@@ -34,6 +35,7 @@ public class TeacherService {
     public Teacher getTeacher(Long id){
         return teacherList.stream().
                 filter(teacher -> teacher.getId().equals(id)).
-                findFirst().orElse(new Teacher());
+                findFirst().
+                orElseThrow(() -> new TeacherNotFoundException(id));
     }
 }
