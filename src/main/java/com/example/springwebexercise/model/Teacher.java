@@ -41,4 +41,20 @@ public class Teacher {
     public List<String> getCourses() {
         return courses;
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setCourses(List<String> courses) {
+        this.courses = courses;
+    }
 }

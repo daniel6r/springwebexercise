@@ -3,10 +3,9 @@ package com.example.springwebexercise.service;
 import com.example.springwebexercise.exception.TeacherAlreadyExistsException;
 import com.example.springwebexercise.exception.TeacherNotFoundException;
 import com.example.springwebexercise.model.Teacher;
-import com.sun.jdi.request.DuplicateRequestException;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
-import org.yaml.snakeyaml.constructor.DuplicateKeyException;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +49,35 @@ public class TeacherService {
                         .ifPresentOrElse(t ->
                                 {throw new TeacherAlreadyExistsException(teacher.getFirstName(), teacher.getLastName());},
                                 () -> {teacherList.add(teacher);});
+    }
 
+    public void updateTeacher(Teacher teacherToUpdate){
+        Long id = teacherToUpdate.getId();
+        if(!isDuplicate(teacherToUpdate)) {
+            teacherList.stream()
+                    .filter(t -> t.getId().equals(id))
+                    .findAny()
+                    .ifPresentOrElse(
+                            t -> {
+                                t.setFirstName(teacherToUpdate.getFirstName());
+                                t.setLastName(teacherToUpdate.getLastName());
+                                t.setCourses(teacherToUpdate.getCourses());
+                            },
+                            () -> {
+                                throw new TeacherNotFoundException(id);
+                            }
+                    );
+        } else {
+            throw new TeacherAlreadyExistsException(teacherToUpdate.getFirstName(), teacherToUpdate.getLastName());
+        }
+    }
+
+    private boolean isDuplicate(Teacher teacher){
+        return teacherList.stream()
+                .filter(t -> t.getFirstName().equalsIgnoreCase(teacher.getFirstName()))
+                .filter(t -> t.getLastName().equalsIgnoreCase(teacher.getLastName()))
+                .filter(t -> t.getCourses().equals(teacher.getCourses()))
+                .findAny()
+                .isPresent();
     }
 }

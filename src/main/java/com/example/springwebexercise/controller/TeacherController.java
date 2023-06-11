@@ -28,9 +28,14 @@ public class TeacherController {
         return teacherService.getTeacher(id);
     }
 
-    @PostMapping("teachers")
+    @PostMapping("/teachers")
     @ResponseStatus(HttpStatus.CREATED)
     public void addTeacher(@RequestBody @Valid Teacher teacher){
         teacherService.addTeacher(teacher);
+    }
+
+    @PutMapping("/teachers")
+    public void updateTeacher(@RequestBody @Valid Teacher teacher){
+        teacherService.updateTeacher(teacher);
     }
 }
