@@ -1,9 +1,12 @@
 package com.example.springwebexercise.service;
 
+import com.example.springwebexercise.exception.TeacherAlreadyExistsException;
 import com.example.springwebexercise.exception.TeacherNotFoundException;
 import com.example.springwebexercise.model.Teacher;
+import com.sun.jdi.request.DuplicateRequestException;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
+import org.yaml.snakeyaml.constructor.DuplicateKeyException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +43,13 @@ public class TeacherService {
     }
 
     public void addTeacher(Teacher teacher){
-        teacherList.add(teacher);
+        this.teacherList.stream()
+                        .filter(t -> t.getFirstName().equalsIgnoreCase(teacher.getFirstName()))
+                        .filter(t -> t.getLastName().equalsIgnoreCase(teacher.getLastName()))
+                        .findAny()
+                        .ifPresentOrElse(t ->
+                                {throw new TeacherAlreadyExistsException(teacher.getFirstName(), teacher.getLastName());},
+                                () -> {teacherList.add(teacher);});
+
     }
 }

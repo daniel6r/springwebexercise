@@ -2,6 +2,7 @@ package com.example.springwebexercise.controller;
 
 import com.example.springwebexercise.model.Teacher;
 import com.example.springwebexercise.service.TeacherService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,7 +30,7 @@ public class TeacherController {
 
     @PostMapping("teachers")
     @ResponseStatus(HttpStatus.CREATED)
-    public void addTeacher(@RequestBody Teacher teacher){
+    public void addTeacher(@RequestBody @Valid Teacher teacher){
         teacherService.addTeacher(teacher);
     }
 }
