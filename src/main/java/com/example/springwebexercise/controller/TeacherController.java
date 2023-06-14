@@ -3,20 +3,18 @@ package com.example.springwebexercise.controller;
 import com.example.springwebexercise.model.Teacher;
 import com.example.springwebexercise.service.TeacherService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1")
 public class TeacherController {
 
     private final TeacherService teacherService;
-
-    public TeacherController(TeacherService teacherService) {
-        this.teacherService = teacherService;
-    }
 
     @GetMapping("/teachers")
     public List<Teacher> getTeachers(@RequestParam(required = false) List<String> course){
